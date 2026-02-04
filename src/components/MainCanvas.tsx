@@ -174,13 +174,6 @@ export default function MainCanvas() {
                     </span>
                   </motion.h1>
                   
-                  <motion.p 
-                    variants={itemVariants}
-                    className="text-sm sm:text-base md:text-lg text-gray-600 mb-8 md:mb-12 leading-relaxed font-normal max-w-md mx-auto md:mx-0"
-                  >
-                    Estas são histórias reais. De mulheres reais.
-                  </motion.p>
-                  
                   <div className="flex flex-col items-center md:items-start gap-8 md:gap-12">
                       <motion.div variants={itemVariants} className="scale-90 md:scale-100 origin-center md:origin-left">
                            <CTAButton onClick={() => setIsModalOpen(true)} />
