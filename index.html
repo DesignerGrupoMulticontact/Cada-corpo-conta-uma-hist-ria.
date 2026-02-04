@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyFormula - Cada corpo conta uma história</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#6BAE2E',
+              secondary: '#0872B1',
+              surface: '#F9FAFB',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          },
+        },
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #F9FAFB;
+        overflow-x: hidden;
+      }
+      /* Hide scrollbar for cleaner look */
+      ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+      /* Leaflet overrides */
+      .leaflet-container {
+        width: 100%;
+        height: 100%;
+        /* Make transparent so the React gradient div shows through */
+        background: transparent !important; 
+        font-family: 'Inter', sans-serif;
+        outline: none;
+      }
+      
+      /* STYLIZED MAP TILES (BLENDED) */
+      .stylized-map-tiles {
+        /* This is the magic: Multiply blends the map tiles with the gradient background */
+        mix-blend-mode: multiply; 
+        opacity: 0.85;
+        filter: contrast(1.1) grayscale(1); /* Keep the map data neutral so gradient dictates color */
+      }
+
+      /* CUSTOM MAP LABELS */
+      .map-label-icon {
+        background: transparent;
+        border: none;
+      }
+      .map-label-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        color: #1e293b; /* Darker Slate for readability on green */
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+        white-space: nowrap;
+        /* Glassmorphism Pill - Slightly more opaque for contrast */
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(4px);
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.9);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+      }
+
+      .leaflet-control-zoom {
+        border: none !important;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+      }
+      .leaflet-bar a {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(8px);
+        color: #374151 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        transition: all 0.2s ease;
+      }
+      .leaflet-bar a:hover {
+        background-color: #ffffff !important;
+        color: #0872B1 !important;
+      }
+      /* Hide attribution for ultra-minimal look */
+      .leaflet-control-attribution {
+        background: rgba(255,255,255,0.4) !important;
+        backdrop-filter: blur(2px);
+        color: #64748b !important;
+        font-size: 10px !important;
+        padding: 0 8px !important;
+        border-top-left-radius: 4px;
+      }
+      .leaflet-control-attribution a {
+         color: #475569 !important;
+         text-decoration: none !important;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/": "https://esm.sh/react@18.3.1/",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/": "https://esm.sh/react-dom@18.3.1/",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0",
+    "framer-motion": "https://esm.sh/framer-motion@11.0.8",
+    "leaflet": "https://esm.sh/leaflet@1.9.4",
+    "react-leaflet": "https://esm.sh/react-leaflet@4.2.1?external=react,react-dom,leaflet"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
