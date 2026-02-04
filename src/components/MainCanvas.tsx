@@ -12,7 +12,6 @@ import { IntroOverlay } from '@/components/IntroOverlay';
 import { ActivityToasts } from '@/components/ActivityToasts';
 import { TESTIMONIALS, Testimonial } from '@/lib/constants';
 
-// Dynamically import the map to avoid SSR issues with Leaflet
 const PortugalMap = dynamic(() => import('@/components/PortugalMap'), { 
   ssr: false,
   loading: () => <div className="w-full h-full bg-[#F9FAFB] animate-pulse" />
