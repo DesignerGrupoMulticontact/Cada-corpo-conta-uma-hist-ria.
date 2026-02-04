@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 249, 250, 251;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #F9FAFB;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Leaflet overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: transparent !important; 
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+
+/* STYLIZED MAP TILES (BLENDED) */
+.stylized-map-tiles {
+  mix-blend-mode: multiply; 
+  opacity: 0.85;
+  filter: contrast(1.1) grayscale(1); 
+}
+
+/* CUSTOM MAP LABELS */
+.map-label-icon {
+  background: transparent;
+  border: none;
+}
+.map-label-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+.leaflet-bar a {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px);
+  color: #374151 !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  transition: all 0.2s ease;
+}
+.leaflet-bar a:hover {
+  background-color: #ffffff !important;
+  color: #0872B1 !important;
+}
+/* Hide attribution for ultra-minimal look */
+.leaflet-control-attribution {
+  background: rgba(255,255,255,0.4) !important;
+  backdrop-filter: blur(2px);
+  color: #64748b !important;
+  font-size: 10px !important;
+  padding: 0 8px !important;
+  border-top-left-radius: 4px;
+}
+.leaflet-control-attribution a {
+   color: #475569 !important;
+   text-decoration: none !important;
+}
