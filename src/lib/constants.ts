@@ -37,10 +37,11 @@ export const THEMES: ThemeOption[] = [
 ];
 
 export const toTitleCase = (str: string) => {
-  return str.replace(
-    /\w\S*/g,
-    txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-  );
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 };
 
 export const DISTRICT_LABELS = [
@@ -328,6 +329,7 @@ const TEMPLATES: Record<string, string[]> = {
 
 const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
+// Helper class to manage non-duplicate shuffling of templates
 class TemplateDeck {
   private decks: Record<string, string[]> = {};
 
@@ -336,12 +338,14 @@ class TemplateDeck {
   }
 
   reset() {
+    // Create a shallow copy of all templates
     Object.keys(TEMPLATES).forEach(key => {
       this.decks[key] = [...TEMPLATES[key]];
       this.shuffle(this.decks[key]);
     });
   }
 
+  // Fisher-Yates shuffle
   private shuffle(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -351,6 +355,7 @@ class TemplateDeck {
 
   draw(theme: string): string {
     if (!this.decks[theme] || this.decks[theme].length === 0) {
+      // If deck is empty, refill and reshuffle (unlikely with sufficient content, but safe fallback)
       this.decks[theme] = [...(TEMPLATES[theme] || ["História única."])];
       this.shuffle(this.decks[theme]);
     }
@@ -358,54 +363,71 @@ class TemplateDeck {
   }
 }
 
+// Improved Context-aware age generator
 const getSmartAge = (themeLabel: string, text: string): number => {
   let minAge = 25;
   let maxAge = 65;
   const lowerText = text.toLowerCase();
 
+  // 1. Explicit Age Mentions in Text (Highest Priority)
+  // Regex to catch "aos 45", "tenho 60", "fiz 50", "depois dos 50", "nos 40", "aos 50s"
   const ageMatch = lowerText.match(/(?:aos|tenho|fiz|dos|nos|cheguei aos)\s+(\d+)/);
 
   if (ageMatch && ageMatch[1]) {
     const mentionedAge = parseInt(ageMatch[1], 10);
+    // If text says "I'm 60", age should be 60-61. 
+    // If text says "started at 45", age should be >= 45.
     minAge = mentionedAge;
+    // Cap max age close to mention to keep it realistic (e.g., if "started at 45", she probably isn't 80 now in this specific context unless specified)
     maxAge = mentionedAge + 8; 
   } else {
+    // 2. Contextual Keywords (Secondary Priority)
     if (lowerText.includes("menopausa")) { minAge = Math.max(minAge, 45); maxAge = Math.max(maxAge, 60); }
     if (lowerText.includes("netos") || lowerText.includes("avó")) { minAge = Math.max(minAge, 55); maxAge = 75; }
     if (lowerText.includes("reforma")) { minAge = Math.max(minAge, 58); maxAge = 75; }
     if (lowerText.includes("filhos casarem") || lowerText.includes("filhos saírem")) { minAge = Math.max(minAge, 50); }
     
+    // Catch spelled out numbers
     if (lowerText.includes("trinta")) { minAge = 30; maxAge = 39; }
     if (lowerText.includes("quarenta")) { minAge = 40; maxAge = 49; }
     if (lowerText.includes("cinquenta")) { minAge = 50; maxAge = 59; }
     if (lowerText.includes("sessenta")) { minAge = 60; maxAge = 69; }
 
+    // 3. Theme Constraints (Fallback if no specific text triggers)
     if (minAge === 25) { 
         if (themeLabel === 'Menopausa') { minAge = 45; maxAge = 60; }
         else if (themeLabel === 'Longevidade') { minAge = 50; maxAge = 75; }
         else if (themeLabel === 'Ossos e Articulações') { minAge = 45; }
-        else if (themeLabel === 'Quotidiano') { minAge = 30; } 
+        else if (themeLabel === 'Quotidiano') { minAge = 30; } // Slightly older bias for reflection stories
     }
   }
 
+  // Safety cap to ensure valid range
   if (maxAge <= minAge) maxAge = minAge + 5;
 
   return Math.floor(Math.random() * (maxAge - minAge + 1)) + minAge;
 };
 
 const GENERATED_TESTIMONIALS: any[] = [];
+// Adjusted stories per district to ensure high density but relying on the Deck to prevent dupes
 const STORIES_PER_DISTRICT = 35; 
 
 const QUOTIDIANO_THEME = THEMES.find(t => t.label === "Quotidiano")!;
+// Filter out Quotidiano from standard list to manually control probability
 const HEALTH_THEMES = THEMES.filter(t => t.label !== "Quotidiano");
 const deck = new TemplateDeck();
 
+// Generate ensuring complete coverage of DISTRICTS only
 DISTRICT_LABELS.forEach((district) => {
   const locationName = toTitleCase(district.name);
   for (let i = 0; i < STORIES_PER_DISTRICT; i++) {
+    
+    // Logic for Split
+    // Reduced chance for "Quotidiano" to 15% (down from 40%) to prioritize health themes
     const isQuotidiano = Math.random() < 0.15;
     const theme = isQuotidiano ? QUOTIDIANO_THEME : getRandomItem(HEALTH_THEMES);
     
+    // Use Deck to draw unique text
     const text = deck.draw(theme.label);
     const age = getSmartAge(theme.label, text);
 

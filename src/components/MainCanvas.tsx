@@ -138,7 +138,7 @@ export default function MainCanvas() {
         onAddStory={handleAddStory}
       />
 
-      <Header />
+      <Header style={!isMobile ? { x: contentX, y: contentY } : undefined} />
       
       <div 
         className={`w-full h-full transition-all duration-1000 ${introActive ? 'blur-[16px] pointer-events-none scale-[1.02] brightness-75' : 'blur-0'}`}
@@ -161,16 +161,16 @@ export default function MainCanvas() {
               >
                   <motion.h1 
                     variants={itemVariants}
-                    className="text-gray-900 mb-8 md:mb-12"
+                    className="text-gray-900 mb-6 md:mb-10"
                   >
-                    <span className="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-4 md:mb-6">
+                    <span className="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-3 md:mb-5">
                         <span>Cada corpo</span>
                         <span>conta uma</span>
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#6BAE2E] via-[#2A9D8F] to-[#0872B1]">
                             história.
                         </span>
                     </span>
-                    <span className="block text-xl sm:text-2xl md:text-3xl font-medium text-gray-400 tracking-tight">
+                    <span className="block text-xl sm:text-2xl md:text-3xl font-medium text-gray-400 tracking-tight mt-1">
                         Qual é a tua?
                     </span>
                   </motion.h1>
@@ -238,7 +238,7 @@ export default function MainCanvas() {
         </motion.div>
 
         {!isMobile && (
-            <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#F9FAFB] via-[#F9FAFB]/80 to-transparent pointer-events-none w-[90%] md:w-[65%] lg:w-[55%]" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#F9FAFB] via-[#F9FAFB] via-45% to-transparent pointer-events-none w-full md:w-[75%] lg:w-[65%]" />
         )}
         
         <motion.div 
