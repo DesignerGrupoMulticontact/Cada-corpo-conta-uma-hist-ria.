@@ -160,16 +160,16 @@ export default function MainCanvas() {
               >
                   <motion.h1 
                     variants={itemVariants}
-                    className="text-gray-900 mb-6 md:mb-10"
+                    className="text-gray-900 mb-8 md:mb-12"
                   >
-                    <span className="flex flex-col text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tighter leading-[0.95] mb-3 md:mb-5">
+                    <span className="flex flex-col text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4 md:mb-6">
                         <span>Cada corpo</span>
                         <span>conta uma</span>
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#6BAE2E] via-[#2A9D8F] to-[#0872B1]">
                             história.
                         </span>
                     </span>
-                    <span className="block text-xl sm:text-2xl md:text-3xl font-medium text-gray-400 tracking-tight mt-1">
+                    <span className="block text-lg sm:text-xl md:text-2xl font-medium text-gray-400 tracking-tight">
                         Qual é a tua?
                     </span>
                   </motion.h1>
