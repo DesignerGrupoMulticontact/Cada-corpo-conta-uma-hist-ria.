@@ -20,12 +20,6 @@ const SLIDES: SlideData[] = [
     source: "Marktest/Medicare, 2025",
   },
   { 
-    id: 2, 
-    text: "38% das mulheres portuguesas têm depressão ou ansiedade.", 
-    highlights: ["38%"],
-    source: "Sociedade Portuguesa de Ginecologia",
-  },
-  { 
     id: 3, 
     text: "Mais de metade sente que não estava preparada para a menopausa.", 
     highlights: ["Mais de metade"],
@@ -36,12 +30,6 @@ const SLIDES: SlideData[] = [
     text: "73% desistiram de tirar fotografias por insegurança.", 
     highlights: ["73%"],
     source: "Estudo Dove, 2023",
-  },
-  { 
-    id: 5, 
-    text: "Estas são histórias reais. Escritas por mulheres reais sobre corpos reais.", 
-    highlights: ["histórias reais", "mulheres reais", "corpos reais"],
-    source: "", 
   }
 ];
 

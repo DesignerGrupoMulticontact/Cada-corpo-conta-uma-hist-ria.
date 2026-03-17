@@ -76,6 +76,7 @@ const PopupMarkerTracker: React.FC<{ testimonial: Testimonial, onClose: () => vo
                 location={testimonial.location}
                 tag={testimonial.tag}
                 date={testimonial.createdAt}
+                isUserContribution={testimonial.isUserContribution}
                 onClose={onClose}
              />
         </div>
@@ -114,6 +115,7 @@ const createCustomIcon = (isActive: boolean, zoom: number, isUserContribution?: 
 export default function PortugalMap({ testimonials, activeId, onActiveIdChange, onZoomChange }: PortugalMapProps) {
   const [map, setMap] = useState<L.Map | null>(null);
   const [currentZoom, setCurrentZoom] = useState(7);
+  const [activeRegion, setActiveRegion] = useState<'acores' | 'continente' | 'madeira'>('continente');
   
   const [filterTheme, setFilterTheme] = useState<string>('all');
   const [filterLocation, setFilterLocation] = useState<string>('all');
@@ -180,8 +182,17 @@ export default function PortugalMap({ testimonials, activeId, onActiveIdChange, 
     e.preventDefault();
     e.stopPropagation();
     onActiveIdChange(null);
+    setActiveRegion('continente');
     if (map) {
-        map.setView([39.6, -7.0], 7, { animate: true });
+        map.setView([39.6, -8.8], 7, { animate: true });
+    }
+  };
+
+  const handleFlyToRegion = (region: 'acores' | 'continente' | 'madeira', lat: number, lng: number, zoom: number) => {
+    if (activeRegion === region) return;
+    setActiveRegion(region);
+    if (map) {
+      map.flyTo([lat, lng], zoom, { animate: true, duration: 1.5 });
     }
   };
 
@@ -193,6 +204,35 @@ export default function PortugalMap({ testimonials, activeId, onActiveIdChange, 
   return (
     <div className="w-full h-full relative overflow-hidden bg-[#F9FAFB]">
       
+      {/* Region Navigation Toolbar */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
+        <div className="flex items-center bg-white/90 backdrop-blur-md border border-gray-200/60 rounded-full shadow-md p-1">
+          <button 
+            onClick={() => handleFlyToRegion('acores', 38.5, -28.0, 8)}
+            className={`px-3 py-1.5 rounded-full transition-colors cursor-pointer text-[11px] font-bold tracking-wide ${activeRegion === 'acores' ? 'bg-[#419B45]/10 text-[#419B45]' : 'hover:bg-[#419B45]/5 text-gray-600 hover:text-[#419B45]'}`}
+            title="Ir para Açores"
+          >
+            Açores
+          </button>
+          <div className="w-px h-3 bg-gray-200 mx-1"></div>
+          <button 
+            onClick={() => handleFlyToRegion('continente', 39.6, -8.8, 7)}
+            className={`px-3 py-1.5 rounded-full transition-colors cursor-pointer text-[11px] font-bold tracking-wide ${activeRegion === 'continente' ? 'bg-[#419B45]/10 text-[#419B45]' : 'hover:bg-[#419B45]/5 text-gray-600 hover:text-[#419B45]'}`}
+            title="Ir para Portugal Continental"
+          >
+            Continente
+          </button>
+          <div className="w-px h-3 bg-gray-200 mx-1"></div>
+          <button 
+            onClick={() => handleFlyToRegion('madeira', 32.7, -16.9, 10)}
+            className={`px-3 py-1.5 rounded-full transition-colors cursor-pointer text-[11px] font-bold tracking-wide ${activeRegion === 'madeira' ? 'bg-[#419B45]/10 text-[#419B45]' : 'hover:bg-[#419B45]/5 text-gray-600 hover:text-[#419B45]'}`}
+            title="Ir para Madeira"
+          >
+            Madeira
+          </button>
+        </div>
+      </div>
+
       <div 
         className="absolute right-6 bottom-12 z-[1000] flex flex-col gap-4 pointer-events-auto items-end"
         onClick={(e) => e.stopPropagation()} 
@@ -307,11 +347,9 @@ export default function PortugalMap({ testimonials, activeId, onActiveIdChange, 
 
       <div className="absolute inset-0 z-0 bg-transparent">
         <MapContainer 
-            center={[39.6, -7.0]} 
+            center={[39.6, -8.8]} 
             zoom={7} 
             minZoom={5}
-            maxBounds={portugalBounds}
-            maxBoundsViscosity={0.5}
             scrollWheelZoom={true} 
             zoomControl={false}
             className="w-full h-full"

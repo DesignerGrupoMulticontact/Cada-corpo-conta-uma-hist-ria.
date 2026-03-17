@@ -68,10 +68,10 @@ export default function MainCanvas() {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const mapX = useTransform(smoothX, [-0.5, 0.5], [10, -10]);
-  const mapY = useTransform(smoothY, [-0.5, 0.5], [10, -10]);
-  const contentX = useTransform(smoothX, [-0.5, 0.5], [25, -25]);
-  const contentY = useTransform(smoothY, [-0.5, 0.5], [25, -25]);
+  const mapX = useTransform(smoothX, [-0.5, 0.5], [3, -3]);
+  const mapY = useTransform(smoothY, [-0.5, 0.5], [3, -3]);
+  const contentX = useTransform(smoothX, [-0.5, 0.5], [8, -8]);
+  const contentY = useTransform(smoothY, [-0.5, 0.5], [8, -8]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile || introActive) return;
@@ -185,17 +185,13 @@ export default function MainCanvas() {
                       >
                           <div className="flex -space-x-3">
                           {[
-                              "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=64&h=64&q=80",
-                              "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=64&h=64&q=80",
-                              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=64&h=64&q=80",
-                              "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=64&h=64&q=80"
-                          ].map((src, i) => (
-                              <div key={i} className="w-9 h-9 md:w-11 md:h-11 rounded-full border-[3px] border-white shadow-sm overflow-hidden bg-gray-100">
-                              <img 
-                                  src={src} 
-                                  alt={`Mulher real ${i+1}`} 
-                                  className="w-full h-full object-cover" 
-                              />
+                              { initial: 'M', color: 'from-[#6BAE2E] to-[#4c8a1e]' },
+                              { initial: 'A', color: 'from-[#0872B1] to-[#065a8c]' },
+                              { initial: 'S', color: 'from-[#6BAE2E] to-[#4c8a1e]' },
+                              { initial: 'C', color: 'from-[#0872B1] to-[#065a8c]' }
+                          ].map((avatar, i) => (
+                              <div key={i} className={`w-9 h-9 md:w-11 md:h-11 rounded-full border-[3px] border-white shadow-sm flex items-center justify-center bg-gradient-to-tr ${avatar.color} text-white font-bold text-xs md:text-sm`}>
+                                {avatar.initial}
                               </div>
                           ))}
                           </div>

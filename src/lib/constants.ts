@@ -12,6 +12,7 @@ export interface Testimonial {
   visibilityRank: number; // 0-1, used for progressive zoom reveal
   createdAt: string; // ISO String
   isUserContribution?: boolean; // New flag to distinguish user's own pins
+  reactionCount?: number;
 }
 
 export interface ThemeOption {
@@ -35,6 +36,309 @@ export const THEMES: ThemeOption[] = [
   { label: "Auto-estima", icon: Smile },
   { label: "Quotidiano", icon: Coffee },
 ];
+
+export const RELATED_ARTICLES: Record<string, {title: string, description: string, image: string, link: string}[]> = {
+  'Perda de Peso': [
+    {
+      title: 'Como acelerar o metabolismo naturalmente',
+      description: 'Descobre os alimentos e hábitos que ajudam o teu corpo a queimar mais energia.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/acelerar-metabolismo'
+    },
+    {
+      title: 'A verdade sobre o jejum intermitente',
+      description: 'Será que funciona para todas as mulheres? O que diz a ciência.',
+      image: 'https://images.unsplash.com/photo-1498837167922-41cfa6f310f1?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/jejum-intermitente'
+    },
+    {
+      title: 'Gerir a fome emocional',
+      description: 'Estratégias para distinguir a fome física da vontade de comer por ansiedade.',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/fome-emocional'
+    }
+  ],
+  'Longevidade': [
+    {
+      title: 'Os segredos das Zonas Azuis',
+      description: 'O que podemos aprender com as populações que vivem mais tempo e com mais saúde.',
+      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/zonas-azuis'
+    },
+    {
+      title: 'Exercício físico depois dos 50',
+      description: 'Como adaptar o treino para proteger as articulações e manter a massa muscular.',
+      image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/exercicio-depois-50'
+    },
+    {
+      title: 'Alimentação anti-envelhecimento',
+      description: 'Os antioxidantes e nutrientes essenciais para proteger as tuas células.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentacao-anti-envelhecimento'
+    }
+  ],
+  'Menopausa': [
+    {
+      title: 'Aliviar os afrontamentos naturalmente',
+      description: 'Opções não hormonais e mudanças no estilo de vida que fazem a diferença.',
+      image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/aliviar-afrontamentos'
+    },
+    {
+      title: 'A importância da Terapia Hormonal',
+      description: 'Mitos, verdades e quando deves considerar falar com o teu médico.',
+      image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/terapia-hormonal'
+    },
+    {
+      title: 'Nutrição específica para a Menopausa',
+      description: 'O que comer para proteger os ossos e o coração nesta nova fase.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/nutricao-menopausa'
+    }
+  ],
+  'Energia e Memória': [
+    {
+      title: 'Combater a fadiga mental',
+      description: 'Estratégias para recuperar o foco e a clareza ao longo do dia.',
+      image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/fadiga-mental'
+    },
+    {
+      title: 'Alimentos para o cérebro',
+      description: 'Os melhores nutrientes para proteger a memória e a função cognitiva.',
+      image: 'https://images.unsplash.com/photo-1532153975070-2e9ab71f1b14?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentos-cerebro'
+    },
+    {
+      title: 'A importância das pausas',
+      description: 'Como pequenos intervalos podem aumentar drasticamente a tua produtividade.',
+      image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/importancia-pausas'
+    }
+  ],
+  'Cabelo, Pele e Unhas': [
+    {
+      title: 'A verdade sobre o colagénio',
+      description: 'Suplementar vale a pena? O que dizem os estudos mais recentes.',
+      image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/verdade-colagenio'
+    },
+    {
+      title: 'Rotina de pele minimalista',
+      description: 'Os 3 passos essenciais para uma pele saudável, sem complicações.',
+      image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/rotina-pele'
+    },
+    {
+      title: 'Queda de cabelo na mulher',
+      description: 'Causas comuns e quando deves procurar ajuda especializada.',
+      image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/queda-cabelo'
+    }
+  ],
+  'Circulação e Açúcar no Sangue': [
+    {
+      title: 'Como estabilizar a glicemia',
+      description: 'Dicas práticas para evitar os picos de açúcar e as quebras de energia.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/estabilizar-glicemia'
+    },
+    {
+      title: 'Aliviar pernas pesadas',
+      description: 'Exercícios e hábitos para melhorar a circulação ao fim do dia.',
+      image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/pernas-pesadas'
+    },
+    {
+      title: 'O perigo do açúcar escondido',
+      description: 'Como ler rótulos e identificar açúcares disfarçados nos alimentos.',
+      image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/acucar-escondido'
+    }
+  ],
+  'Saúde Sexual': [
+    {
+      title: 'Redescobrir a intimidade',
+      description: 'Como comunicar com o parceiro sobre as mudanças no teu corpo.',
+      image: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/redescobrir-intimidade'
+    },
+    {
+      title: 'Secura vaginal: o que fazer?',
+      description: 'Soluções práticas e tratamentos para recuperar o conforto.',
+      image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/secura-vaginal'
+    },
+    {
+      title: 'A importância do pavimento pélvico',
+      description: 'Exercícios de Kegel e por que todas as mulheres os deviam fazer.',
+      image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/pavimento-pelvico'
+    }
+  ],
+  'Problemas Digestivos': [
+    {
+      title: 'O que é o intestino permeável?',
+      description: 'Como a saúde do teu intestino afeta o resto do teu corpo.',
+      image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/intestino-permeavel'
+    },
+    {
+      title: 'Alimentos ricos em probióticos',
+      description: 'Como nutrir a tua flora intestinal de forma natural.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentos-probioticos'
+    },
+    {
+      title: 'Gerir o inchaço abdominal',
+      description: 'Causas comuns e estratégias rápidas para aliviar o desconforto.',
+      image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/inchaco-abdominal'
+    }
+  ],
+  'Ossos e Articulações': [
+    {
+      title: 'Prevenir a osteoporose',
+      description: 'Os nutrientes essenciais além do cálcio que os teus ossos precisam.',
+      image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/prevenir-osteoporose'
+    },
+    {
+      title: 'Exercícios de baixo impacto',
+      description: 'Como manter a forma sem castigar as tuas articulações.',
+      image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/exercicios-baixo-impacto'
+    },
+    {
+      title: 'Alimentação anti-inflamatória',
+      description: 'O que comer para reduzir a dor e a inflamação articular.',
+      image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentacao-anti-inflamatoria'
+    }
+  ],
+  'Sono': [
+    {
+      title: 'Higiene do sono: o que é?',
+      description: 'Aprende a criar o ambiente perfeito para um descanso reparador.',
+      image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/higiene-sono'
+    },
+    {
+      title: 'Alimentos que ajudam a dormir melhor',
+      description: 'O que deves comer (e evitar) antes de ir para a cama.',
+      image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentos-sono'
+    },
+    {
+      title: 'Como criar uma rotina relaxante',
+      description: 'Hábitos noturnos que preparam o teu corpo para descansar.',
+      image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/rotina-relaxante'
+    }
+  ],
+  'Ansiedade e Humor': [
+    {
+      title: 'Gerir a ansiedade no dia a dia',
+      description: 'Técnicas de relaxamento e hábitos que promovem a calma interior.',
+      image: 'https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/gerir-ansiedade'
+    },
+    {
+      title: 'Alimentos que melhoram o humor',
+      description: 'A ligação surpreendente entre o que comes e como te sentes.',
+      image: 'https://images.unsplash.com/photo-1511381939415-e440c9a11a52?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/alimentos-humor'
+    },
+    {
+      title: 'A importância do sono na saúde mental',
+      description: 'Descobre como uma boa noite de descanso afeta o teu bem-estar emocional.',
+      image: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/sono-saude-mental'
+    }
+  ],
+  'Saúde Mental': [
+    {
+      title: 'A importância de pedir ajuda',
+      description: 'Saber reconhecer quando precisamos de apoio profissional.',
+      image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/pedir-ajuda'
+    },
+    {
+      title: 'Práticas de mindfulness',
+      description: 'Como estar presente no momento pode reduzir o stress.',
+      image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/praticas-mindfulness'
+    },
+    {
+      title: 'Como estabelecer limites saudáveis',
+      description: 'Aprender a dizer não para proteger a tua energia mental.',
+      image: 'https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/limites-saudaveis'
+    }
+  ],
+  'Auto-estima': [
+    {
+      title: 'Aceitação do corpo',
+      description: 'O caminho para amar a tua forma única e natural.',
+      image: 'https://images.unsplash.com/photo-1531123897727-8f129e1b4492?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/aceitacao-corpo'
+    },
+    {
+      title: 'Como cultivar o amor-próprio',
+      description: 'Exercícios diários para melhorar a forma como te vês.',
+      image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/cultivar-amor-proprio'
+    },
+    {
+      title: 'O impacto das redes sociais',
+      description: 'Como fazer um detox digital para melhorar a tua auto-imagem.',
+      image: 'https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/impacto-redes-sociais'
+    }
+  ],
+  'Quotidiano': [
+    {
+      title: 'Organizar o tempo para o autocuidado',
+      description: 'Como encontrar momentos para ti na correria do dia a dia.',
+      image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/organizar-tempo'
+    },
+    {
+      title: 'Pequenos hábitos, grandes mudanças',
+      description: 'Como rotinas simples podem transformar a tua qualidade de vida.',
+      image: 'https://images.unsplash.com/photo-1499728603263-13726abce5fd?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/pequenos-habitos'
+    },
+    {
+      title: 'Encontrar o equilíbrio',
+      description: 'Conciliar trabalho, família e saúde sem entrar em burnout.',
+      image: 'https://images.unsplash.com/photo-1528319725582-ddc096101511?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/encontrar-equilibrio'
+    }
+  ],
+  'default': [
+    {
+      title: 'A importância do sono',
+      description: 'Descobre como uma boa noite de descanso afeta o teu bem-estar emocional.',
+      image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/importancia-sono'
+    },
+    {
+      title: 'Rotinas de autocuidado',
+      description: 'Pequenos hábitos que fazem a diferença na tua saúde mental e física.',
+      image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/rotinas-autocuidado'
+    },
+    {
+      title: 'A importância da hidratação',
+      description: 'Porque beber água é o primeiro passo para uma pele e corpo saudáveis.',
+      image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=500&auto=format&fit=crop',
+      link: 'https://myformula.pt/blog/importancia-hidratacao'
+    }
+  ]
+};
 
 export const toTitleCase = (str: string) => {
   return str
@@ -100,7 +404,56 @@ export const CITIES: Record<string, CityDef> = {
   'Portugal': { lat: 39.3999, lng: -8.2245, spread: 0.5 },
 };
 
-const getSmartCoords = (cityKey: string, baseLat: number, baseLng: number) => {
+const MADEIRA_COORDS = [
+  { lat: 32.6669, lng: -16.9241, name: 'Funchal' },
+  { lat: 32.6489, lng: -16.9744, name: 'Câmara de Lobos' },
+  { lat: 32.6714, lng: -17.0650, name: 'Ribeira Brava' },
+  { lat: 32.6800, lng: -17.1014, name: 'Ponta do Sol' },
+  { lat: 32.7222, lng: -17.1778, name: 'Calheta' },
+  { lat: 32.8675, lng: -17.1706, name: 'Porto Moniz' },
+  { lat: 32.8042, lng: -17.0447, name: 'São Vicente' },
+  { lat: 32.8242, lng: -16.8822, name: 'Santana' },
+  { lat: 32.7183, lng: -16.7667, name: 'Machico' },
+  { lat: 32.6886, lng: -16.7922, name: 'Santa Cruz' },
+  { lat: 33.0614, lng: -16.3414, name: 'Porto Santo' },
+];
+
+const ACORES_COORDS = [
+  { lat: 37.7412, lng: -25.6756, name: 'Ponta Delgada' },
+  { lat: 37.8214, lng: -25.5217, name: 'Ribeira Grande' },
+  { lat: 37.7719, lng: -25.3119, name: 'Furnas' },
+  { lat: 37.8317, lng: -25.1461, name: 'Nordeste' },
+  { lat: 38.6533, lng: -27.2269, name: 'Angra do Heroísmo' },
+  { lat: 38.7314, lng: -27.0653, name: 'Praia da Vitória' },
+  { lat: 38.5333, lng: -28.6264, name: 'Horta' },
+  { lat: 38.5333, lng: -28.5264, name: 'Madalena' },
+  { lat: 38.5167, lng: -28.3167, name: 'São Roque do Pico' },
+  { lat: 38.6833, lng: -28.2000, name: 'Velas' },
+  { lat: 39.0833, lng: -28.0000, name: 'Santa Cruz da Graciosa' },
+  { lat: 36.9500, lng: -25.1333, name: 'Vila do Porto' },
+  { lat: 39.4500, lng: -31.1167, name: 'Santa Cruz das Flores' },
+  { lat: 39.6667, lng: -31.1000, name: 'Vila do Corvo' },
+];
+
+const getSmartCoords = (cityKey: string, baseLat: number, baseLng: number): { lat: number, lng: number, name?: string } => {
+  if (cityKey === 'Funchal') {
+    const coord = MADEIRA_COORDS[Math.floor(Math.random() * MADEIRA_COORDS.length)];
+    return {
+      lat: coord.lat + (Math.random() - 0.5) * 0.02,
+      lng: coord.lng + (Math.random() - 0.5) * 0.02,
+      name: coord.name
+    };
+  }
+  
+  if (cityKey === 'Ponta Delgada') {
+    const coord = ACORES_COORDS[Math.floor(Math.random() * ACORES_COORDS.length)];
+    return {
+      lat: coord.lat + (Math.random() - 0.5) * 0.02,
+      lng: coord.lng + (Math.random() - 0.5) * 0.02,
+      name: coord.name
+    };
+  }
+
   const city = CITIES[cityKey];
   const dir = city?.dir || 'ALL';
   const spread = city?.spread || 0.30; 
@@ -323,7 +676,32 @@ const TEMPLATES: Record<string, string[]> = {
     "Mudei de cidade e comecei do zero aos 55 anos. Assustador? Sim. Mas nunca me senti tão livre.",
     "Redescobri o prazer de dançar na sala. Ninguém está a ver e a música cura qualquer dia mau.",
     "Escrevi um diário pela primeira vez. É estranho ler os meus pensamentos, mas ajuda-me a organizar a cabeça.",
-    "Deixei de tentar agradar a toda a gente. Agora, a minha prioridade é estar em paz comigo mesma."
+    "Deixei de tentar agradar a toda a gente. Agora, a minha prioridade é estar em paz comigo mesma.",
+    "Hoje consegui beber 2 litros de água. Parece pouco, mas para mim é uma vitória.",
+    "Fiz a cama logo de manhã. Deu-me uma sensação de ordem para o resto do dia.",
+    "Consegui dizer 'não' a um convite que não me apetecia ir, sem me sentir culpada.",
+    "Tirei 15 minutos só para mim, para beber um café em silêncio antes de a casa acordar.",
+    "Fui dar uma caminhada de 20 minutos. O ar fresco mudou completamente o meu humor.",
+    "Organizei aquela gaveta que estava um caos há meses. Sinto-me incrivelmente leve.",
+    "Hoje não reclamei no trânsito. Pus uma música que gosto e aproveitei o momento.",
+    "Consegui ler 10 páginas do meu livro antes de dormir em vez de ficar no telemóvel.",
+    "Fiz uma refeição saudável para mim, mesmo estando sozinha em casa.",
+    "Elogiei uma colega de trabalho e vi o sorriso dela iluminar-se. Fez o meu dia.",
+    "Hoje consegui meditar durante 5 minutos. A minha mente agradeceu a pausa.",
+    "Usei aquela roupa que guardava para uma 'ocasião especial'. Hoje é o dia especial.",
+    "Fiz as pazes com uma amiga depois de um desentendimento. O perdão liberta.",
+    "Consegui terminar o dia de trabalho a horas e fui passear o cão com calma.",
+    "Hoje não me critiquei ao olhar ao espelho. Sorri para mim mesma.",
+    "Preparei a roupa e o almoço na noite anterior. A minha manhã foi tão mais tranquila.",
+    "Desliguei as notificações do telemóvel durante o jantar. Estive 100% presente.",
+    "Plantei umas ervas aromáticas na varanda. Ver algo a crescer dá-me esperança.",
+    "Hoje consegui fazer 10 flexões. O meu corpo está mais forte do que eu pensava.",
+    "Liguei à minha mãe só para saber como estava, sem pressas. Foi uma conversa boa.",
+    "Comprei flores para mim mesma. A casa ficou logo com outra energia.",
+    "Hoje não deixei a loiça para o dia seguinte. Acordar com a cozinha limpa é maravilhoso.",
+    "Consegui poupar o dinheiro do café e pus no meu mealheiro de viagens.",
+    "Fiz um bolo sem motivo nenhum, só pelo cheiro que deixa na casa.",
+    "Hoje perdoei-me por não ter conseguido fazer tudo o que estava na lista."
   ]
 };
 
@@ -395,7 +773,8 @@ const getSmartAge = (themeLabel: string, text: string): number => {
 };
 
 const GENERATED_TESTIMONIALS: any[] = [];
-const STORIES_PER_DISTRICT = 35; 
+const HEALTH_STORIES_PER_DISTRICT = 30; 
+const QUOTIDIANO_STORIES_PER_DISTRICT = 5; 
 
 const QUOTIDIANO_THEME = THEMES.find(t => t.label === "Quotidiano")!;
 const HEALTH_THEMES = THEMES.filter(t => t.label !== "Quotidiano");
@@ -403,22 +782,37 @@ const deck = new TemplateDeck();
 
 DISTRICT_LABELS.forEach((district) => {
   const locationName = toTitleCase(district.name);
-  for (let i = 0; i < STORIES_PER_DISTRICT; i++) {
-    
-    const isQuotidiano = Math.random() < 0.15;
-    const theme = isQuotidiano ? QUOTIDIANO_THEME : getRandomItem(HEALTH_THEMES);
-    
+  
+  for (let i = 0; i < QUOTIDIANO_STORIES_PER_DISTRICT; i++) {
+    const text = deck.draw("Quotidiano");
+    const age = getSmartAge("Quotidiano", text);
+
+    GENERATED_TESTIMONIALS.push({
+      id: `gen-q-${district.name}-${Math.random().toString(36).substr(2, 6)}`,
+      author: `${getRandomItem(FEMALE_NAMES)}, ${age}`,
+      location: locationName,
+      tag: "Quotidiano",
+      text: text,
+      icon: QUOTIDIANO_THEME.icon,
+      createdAt: getRandomDate(1, 120),
+      reactionCount: Math.floor(Math.random() * 80) + 20
+    });
+  }
+
+  for (let i = 0; i < HEALTH_STORIES_PER_DISTRICT; i++) {
+    const theme = getRandomItem(HEALTH_THEMES);
     const text = deck.draw(theme.label);
     const age = getSmartAge(theme.label, text);
 
     GENERATED_TESTIMONIALS.push({
-      id: `gen-${district.name}-${Math.random().toString(36).substr(2, 6)}`,
+      id: `gen-h-${district.name}-${Math.random().toString(36).substr(2, 6)}`,
       author: `${getRandomItem(FEMALE_NAMES)}, ${age}`,
       location: locationName,
       tag: theme.label,
       text: text,
       icon: theme.icon,
-      createdAt: getRandomDate(1, 120) 
+      createdAt: getRandomDate(1, 120),
+      reactionCount: Math.floor(Math.random() * 80) + 20
     });
   }
 });
@@ -429,11 +823,12 @@ const RAW_COMBINED = [
 
 export const TESTIMONIALS: Testimonial[] = RAW_COMBINED.map((t) => {
   const baseCoords = CITIES[t.location] || CITIES['Portugal'];
-  const { lat, lng } = getSmartCoords(t.location, baseCoords.lat, baseCoords.lng);
+  const { lat, lng, name } = getSmartCoords(t.location, baseCoords.lat, baseCoords.lng);
   return {
     ...t,
     lat,
     lng,
+    location: name || t.location,
     visibilityRank: Math.random() 
   };
 });

@@ -123,6 +123,9 @@ export const ActivityToasts: React.FC<ActivityToastsProps> = ({ isActive, testim
     };
   }, [isActive, userStory]); 
 
+  const isGreen = notification ? notification.name.length % 2 === 0 : true;
+  const gradientClass = isGreen ? 'from-[#6BAE2E] to-[#4a821c]' : 'from-[#0872B1] to-[#065a8c]';
+
   return (
     <div className="fixed top-24 right-4 md:top-24 md:right-8 z-[60] flex flex-col gap-2 items-end pointer-events-none">
       <AnimatePresence mode="wait">
@@ -137,7 +140,7 @@ export const ActivityToasts: React.FC<ActivityToastsProps> = ({ isActive, testim
             className="pointer-events-auto cursor-pointer bg-white/80 backdrop-blur-xl border border-white/60 shadow-2xl shadow-black/5 rounded-2xl p-4 pr-6 flex items-start gap-3.5 max-w-[280px] md:max-w-xs group hover:bg-white/95 transition-colors"
           >
             <div className="relative shrink-0 mt-0.5">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6BAE2E] to-[#2E8B57] flex items-center justify-center text-white shadow-sm">
+              <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${gradientClass} flex items-center justify-center text-white shadow-sm`}>
                 <Sparkles size={14} className="fill-white/20" />
               </div>
               <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">

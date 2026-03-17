@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, ChevronDown, PenLine, Heart, ArrowRight, Sparkles, Quote, Lock, Search, Calendar, User, Shuffle, UserCheck } from 'lucide-react';
-import { THEMES, ThemeOption, Testimonial, getCoordsForLocation, DISTRICT_LABELS, toTitleCase, FEMALE_NAMES } from '@/lib/constants';
+import { X, MapPin, ChevronDown, PenLine, Heart, ArrowRight, Sparkles, Quote, Lock, Search, Calendar, User, Shuffle, UserCheck, BookOpen, Mail } from 'lucide-react';
+import { THEMES, ThemeOption, Testimonial, getCoordsForLocation, DISTRICT_LABELS, toTitleCase, FEMALE_NAMES, RELATED_ARTICLES } from '@/lib/constants';
 
 interface ShareStoryModalProps {
   isOpen: boolean;
@@ -13,6 +13,8 @@ interface ShareStoryModalProps {
 }
 
 type IdentityType = 'pseudonym' | 'real';
+
+
 
 export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClose, onAddStory }) => {
   const [submitted, setSubmitted] = useState(false);
@@ -24,6 +26,7 @@ export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClos
   const [birthDate, setBirthDate] = useState('');
   const [identityType, setIdentityType] = useState<IdentityType>('pseudonym');
   const [realName, setRealName] = useState('');
+  const [email, setEmail] = useState('');
   
   const getRandomName = () => FEMALE_NAMES[Math.floor(Math.random() * FEMALE_NAMES.length)];
   const [currentPseudonym, setCurrentPseudonym] = useState(getRandomName());
@@ -115,7 +118,7 @@ export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClos
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-            className="relative w-full max-w-md bg-white rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90dvh]"
+            className={`relative w-full bg-white rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90dvh] transition-all duration-500 ${submitted ? 'max-w-4xl' : 'max-w-md'}`}
           >
              <button 
                 aria-label="Fechar"
@@ -125,58 +128,83 @@ export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClos
                 <X size={16} />
              </button>
 
-             <div className="overflow-y-auto custom-scrollbar flex flex-col h-full">
+             <div className={`overflow-y-auto custom-scrollbar flex h-full ${submitted ? 'flex-col md:flex-row' : 'flex-col'}`}>
                 
                 {submitted ? (
-                  <div className="flex flex-col items-center justify-center p-6 h-full min-h-[400px]">
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      className="w-16 h-16 bg-[#6BAE2E]/10 text-[#6BAE2E] rounded-full flex items-center justify-center mb-4 shadow-sm"
-                    >
-                      <Heart size={32} className="fill-current animate-pulse" />
-                    </motion.div>
-                    
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight text-center px-4 leading-tight">
-                      Obrigada por partilhares a tua história.
-                    </h3>
-                    <p className="text-gray-500 text-sm text-center mb-8 max-w-xs leading-relaxed px-4">
-                      A tua história já está no mapa. Como tu, milhares de mulheres enfrentam os mesmos desafios.
-                    </p>
-                    
-                    <motion.a 
-                        href="https://www.myformula.pt/" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        className="w-full group relative overflow-hidden bg-gradient-to-br from-[#6BAE2E] to-[#0872B1] rounded-2xl p-6 text-left shadow-xl shadow-primary/20 cursor-pointer transform transition-all hover:scale-[1.01]"
-                    >
-                        <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/20 blur-[40px] rounded-full pointer-events-none" />
-                        
-                        <div className="relative z-10 flex flex-col h-full">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="p-1.5 bg-white/20 rounded-lg w-fit backdrop-blur-md">
-                                    <Sparkles className="text-white" size={16} />
-                                </div>
-                                <span className="text-[10px] font-bold text-white uppercase tracking-widest opacity-80">Recomendação Clínica</span>
+                  <>
+                    <div className="flex flex-col items-center justify-center p-6 md:p-10 flex-1 min-h-[400px] border-b md:border-b-0 md:border-r border-gray-100">
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="w-16 h-16 bg-[#6BAE2E]/10 text-[#6BAE2E] rounded-full flex items-center justify-center mb-4 shadow-sm"
+                      >
+                        <Heart size={32} className="fill-current animate-pulse" />
+                      </motion.div>
+                      
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight text-center px-4 leading-tight">
+                        Obrigada por partilhares a tua história.
+                      </h3>
+                      <p className="text-gray-500 text-sm text-center mb-8 max-w-xs leading-relaxed px-4">
+                        A tua história já está no mapa. Como tu, milhares de mulheres enfrentam os mesmos desafios.
+                      </p>
+                      
+                      <motion.a 
+                          href="https://www.myformula.pt/" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          className="w-full group relative overflow-hidden bg-gradient-to-br from-[#6BAE2E] to-[#0872B1] rounded-2xl p-6 text-left shadow-xl shadow-primary/20 cursor-pointer transform transition-all hover:scale-[1.01]"
+                      >
+                          <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/20 blur-[40px] rounded-full pointer-events-none" />
+                          
+                          <div className="relative z-10 flex flex-col h-full">
+                              <h4 className="text-[17px] font-bold text-white mb-2 leading-tight">
+                                  Queres descobrir a fórmula ideal para o teu corpo?
+                              </h4>
+                              
+                              <p className="text-white/80 text-[11px] mb-6 leading-relaxed">
+                                  Através de um breve questionário clínico, avalia as tuas necessidades de saúde e nutrição e recebe uma recomendação de suplementos personalizados pensados especificamente para ti.
+                              </p>
+                              
+                              <div className="flex items-center gap-2 text-white font-bold text-xs mt-auto group-hover:gap-3 transition-all bg-white/10 w-fit px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+                                  <span>Fazer questionário de Avaliação Clínica</span>
+                                  <ArrowRight size={14} />
+                              </div>
+                          </div>
+                      </motion.a>
+                    </div>
+
+                    <div className="flex flex-col p-6 md:p-10 flex-1 bg-gray-50/50">
+                      <div className="flex items-center gap-2 mb-6">
+                        <BookOpen className="text-[#6BAE2E]" size={20} />
+                        <h3 className="text-lg font-bold text-gray-900 tracking-tight">Artigos Relacionados</h3>
+                      </div>
+                      
+                      <div className="flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
+                        {(RELATED_ARTICLES[selectedTheme?.label || ''] || RELATED_ARTICLES['default']).map((article, idx) => (
+                          <a 
+                            key={idx}
+                            href={article.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all hover:border-[#6BAE2E]/30"
+                          >
+                            <div className="w-full sm:w-24 h-32 sm:h-24 rounded-xl overflow-hidden shrink-0 relative">
+                              <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             </div>
-                            
-                            <h4 className="text-[17px] font-bold text-white mb-2 leading-tight">
-                                Queres descobrir a fórmula ideal para o teu corpo?
-                            </h4>
-                            
-                            <p className="text-white/80 text-[11px] mb-6 leading-relaxed">
-                                Através de um breve questionário clínico, avalia as tuas necessidades de saúde e nutrição e recebe uma recomendação de suplementos personalizados pensados especificamente para ti.
-                            </p>
-                            
-                            <div className="flex items-center gap-2 text-white font-bold text-xs mt-auto group-hover:gap-3 transition-all bg-white/10 w-fit px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
-                                <span>Fazer Questionário Gratuito</span>
-                                <ArrowRight size={14} />
+                            <div className="flex flex-col justify-center">
+                              <h4 className="text-sm font-bold text-gray-900 mb-1.5 group-hover:text-[#6BAE2E] transition-colors line-clamp-2">{article.title}</h4>
+                              <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{article.description}</p>
+                              <span className="text-[10px] font-bold text-[#6BAE2E] mt-2 uppercase tracking-wider flex items-center gap-1">
+                                Ler Artigo <ArrowRight size={10} />
+                              </span>
                             </div>
-                        </div>
-                    </motion.a>
-                  </div>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </>
                 ) : (
                   <div className="p-5">
                      <div className="flex flex-col items-center text-center mb-4">
@@ -242,19 +270,33 @@ export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClos
                                         initial={{ opacity: 0, height: 0 }}
                                         animate={{ opacity: 1, height: 'auto' }}
                                         exit={{ opacity: 0, height: 0 }}
-                                        className="relative group pt-1"
+                                        className="relative group pt-1 space-y-2"
                                     >
-                                        <div className="absolute left-3 top-1/2 -translate-y-[calc(50%-2px)] text-gray-400 group-focus-within:text-[#6BAE2E] transition-colors">
-                                            <User size={14} />
+                                        <div className="relative">
+                                            <div className="absolute left-3 top-1/2 -translate-y-[calc(50%-1px)] text-gray-400 group-focus-within:text-[#6BAE2E] transition-colors">
+                                                <User size={14} />
+                                            </div>
+                                            <input 
+                                                type="text"
+                                                placeholder="Digita o teu nome"
+                                                value={realName}
+                                                onChange={(e) => setRealName(e.target.value)}
+                                                required={identityType === 'real'}
+                                                className="w-full h-9 pl-9 pr-4 rounded-lg bg-gray-50 border-0 text-xs font-bold text-gray-900 focus:ring-2 focus:ring-[#6BAE2E]/20 focus:bg-white transition-all placeholder:font-normal"
+                                            />
                                         </div>
-                                        <input 
-                                            type="text"
-                                            placeholder="Digita o teu nome"
-                                            value={realName}
-                                            onChange={(e) => setRealName(e.target.value)}
-                                            required={identityType === 'real'}
-                                            className="w-full h-9 pl-9 pr-4 rounded-lg bg-gray-50 border-0 text-xs font-bold text-gray-900 focus:ring-2 focus:ring-[#6BAE2E]/20 focus:bg-white transition-all placeholder:font-normal"
-                                        />
+                                        <div className="relative">
+                                            <div className="absolute left-3 top-1/2 -translate-y-[calc(50%-1px)] text-gray-400 group-focus-within:text-[#6BAE2E] transition-colors">
+                                                <Mail size={14} />
+                                            </div>
+                                            <input 
+                                                type="email"
+                                                placeholder="O teu email (opcional)"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                className="w-full h-9 pl-9 pr-4 rounded-lg bg-gray-50 border-0 text-xs font-bold text-gray-900 focus:ring-2 focus:ring-[#6BAE2E]/20 focus:bg-white transition-all placeholder:font-normal"
+                                            />
+                                        </div>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
@@ -374,9 +416,9 @@ export const ShareStoryModal: React.FC<ShareStoryModalProps> = ({ isOpen, onClos
                                 <ArrowRight size={14} />
                             </button>
                             
-                            <div className="flex items-center justify-center gap-1 mt-2 text-[9px] font-medium text-gray-400">
-                                <Lock size={10} />
-                                <span>Privacidade Protegida</span>
+                            <div className="flex items-start gap-1.5 mt-3 text-[9px] font-medium text-gray-400 leading-tight text-center px-2">
+                                <Lock size={10} className="shrink-0 mt-0.5" />
+                                <span>Ao submeter a minha história, permito que o testemunho possa ser utilizado para fins de marketing, mantendo sempre o seu anonimato, se assim o escolher.</span>
                             </div>
                         </div>
                      </form>
