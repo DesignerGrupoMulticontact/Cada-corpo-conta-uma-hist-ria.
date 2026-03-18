@@ -6,8 +6,15 @@ import React from 'react';
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "MyFormula - Cada corpo conta uma história",
-  description: "Histórias reais de mulheres reais.",
+  title: "Cada corpo conta uma história | MyFormula",
+  description: "Mais de 2500 mulheres portuguesas já partilharam. Encontra histórias do teu distrito, filtra por tema de saúde e partilha a tua.",
+  icons: {
+    icon: "https://res.cloudinary.com/dlmyres0i/image/upload/v1765550441/icon_tdwuig.png",
+  },
+  openGraph: {
+    title: "Cada corpo conta uma história | MyFormula",
+    description: "Mais de 2500 mulheres portuguesas já partilharam. Encontra histórias do teu distrito, filtra por tema de saúde e partilha a tua.",
+  }
 };
 
 export default function RootLayout({

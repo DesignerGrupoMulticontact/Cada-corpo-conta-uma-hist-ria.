@@ -19,6 +19,7 @@ interface TestimonialCardProps {
   reactionCount?: number;
   fullWidth?: boolean;
   hideCloseButton?: boolean;
+  onExpand?: () => void;
 }
 
 function getRelativeTime(dateString: string) {
@@ -41,7 +42,7 @@ function getRelativeTime(dateString: string) {
 
 import { createPortal } from 'react-dom';
 
-export const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, onClose, icon: Icon, author, location, tag, date, isUserContribution, reactionCount: initialReactionCount, fullWidth, hideCloseButton }) => {
+export const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, onClose, icon: Icon, author, location, tag, date, isUserContribution, reactionCount: initialReactionCount, fullWidth, hideCloseButton, onExpand }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [reactionCount, setReactionCount] = useState(initialReactionCount || 0);
   const [hasReacted, setHasReacted] = useState(false);
@@ -63,6 +64,9 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, onClose,
     if (!hasReacted) {
       setHasReacted(true);
       setReactionCount(prev => prev + 1);
+      if (onExpand) {
+        setTimeout(() => onExpand(), 50);
+      }
     }
   };
 
@@ -160,13 +164,13 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, onClose,
       animate={{ opacity: showGeneratedCard ? 0 : 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95, y: 10 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`relative z-50 ${fullWidth ? 'w-full h-full' : 'w-[340px] max-w-[95vw] max-h-[55vh] md:max-h-[75vh]'} flex flex-col cursor-default ${showGeneratedCard ? 'hidden' : ''}`}
+      className={`relative z-50 ${fullWidth ? 'w-full h-full' : 'w-[340px] max-w-[95vw]'} flex flex-col cursor-default ${showGeneratedCard ? 'hidden' : ''}`}
       onClick={(e) => {
         e.stopPropagation();
         if (showShareMenu) setShowShareMenu(false);
       }}
     >
-      <div className="relative flex flex-col overflow-visible rounded-2xl bg-white/95 backdrop-blur-xl border border-white/60 shadow-2xl flex-1 min-h-0">
+      <div className={`relative flex flex-col overflow-visible rounded-2xl bg-white/95 backdrop-blur-xl border border-white/60 shadow-2xl flex-1 min-h-0 ${fullWidth ? '' : 'max-h-[55vh] md:max-h-[75vh]'}`}>
         {!hideCloseButton && (
           <button 
             aria-label="Fechar"
@@ -349,30 +353,30 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ text, onClose,
             initial={{ opacity: 0, height: 0, y: -10 }}
             animate={{ opacity: 1, height: 'auto', y: 0 }}
             exit={{ opacity: 0, height: 0, y: -10 }}
-            className="mt-3 bg-white/95 backdrop-blur-xl rounded-2xl border border-white/60 shadow-xl overflow-hidden shrink-0"
+            className="mt-2 bg-white/95 backdrop-blur-xl rounded-2xl border border-white/60 shadow-xl overflow-hidden shrink-0"
           >
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <BookOpen className="text-[#6BAE2E]" size={16} />
-                <h3 className="text-sm font-bold text-gray-900 tracking-tight">Artigos Relacionados</h3>
+            <div className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <BookOpen className="text-[#6BAE2E]" size={14} />
+                <h3 className="text-xs font-bold text-gray-900 tracking-tight">Artigos Relacionados</h3>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 {(RELATED_ARTICLES[tag] || RELATED_ARTICLES['default']).slice(0, 2).map((article, idx) => (
                   <a 
                     key={idx}
                     href={article.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-3 bg-gray-50/50 p-2 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
+                    className="group flex items-center gap-2.5 bg-gray-50/50 p-1.5 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100"
                   >
-                    <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0">
                       <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <div className="flex flex-col flex-1 min-w-0">
-                      <h4 className="text-xs font-bold text-gray-900 group-hover:text-[#6BAE2E] transition-colors truncate">{article.title}</h4>
-                      <p className="text-[10px] text-gray-500 truncate">{article.description}</p>
+                      <h4 className="text-[11px] font-bold text-gray-900 group-hover:text-[#6BAE2E] transition-colors truncate">{article.title}</h4>
+                      <p className="text-[9px] text-gray-500 truncate">{article.description}</p>
                     </div>
-                    <ArrowRight size={14} className="text-gray-400 group-hover:text-[#6BAE2E] shrink-0 mr-1 transition-colors" />
+                    <ArrowRight size={12} className="text-gray-400 group-hover:text-[#6BAE2E] shrink-0 mr-1 transition-colors" />
                   </a>
                 ))}
               </div>

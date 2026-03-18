@@ -78,6 +78,9 @@ const PopupMarkerTracker: React.FC<{ testimonial: Testimonial, onClose: () => vo
                 date={testimonial.createdAt}
                 isUserContribution={testimonial.isUserContribution}
                 onClose={onClose}
+                onExpand={() => {
+                  map.panBy([0, -140], { animate: true, duration: 0.8 });
+                }}
              />
         </div>
     </div>
@@ -125,8 +128,8 @@ export default function PortugalMap({ testimonials, activeId, onActiveIdChange, 
     if (activeId && map) {
         const testimonial = testimonials.find(t => t.id === activeId);
         if (testimonial) {
-            const targetZoom = Math.max(map.getZoom(), 10);
-            const offset = 220; 
+            const targetZoom = Math.max(map.getZoom(), 9);
+            const offset = 180; 
             
             const markerPx = map.project([testimonial.lat, testimonial.lng], targetZoom);
             const targetCenterPx = markerPx.subtract([0, offset]); 
